@@ -74,6 +74,7 @@ Note: TileGridManager selects tiles to render intelligently
 
 ### Interaction
 
+![generation](media/collision.png)
 
 Note: Collisions and editing are possible
 
@@ -81,4 +82,7 @@ Note: Collisions and editing are possible
 
 ## Call for Feedback
 
-- Interaction behaviour:
+- Ease of Interaction:
+  - Adding new tile types?
+  - Tile properties (e.g. mining)?
+  - Modifying generator?
