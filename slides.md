@@ -130,17 +130,40 @@ Note:
 
 ## Tests
 
-`TileTests`
-
-`ChunkTests`
-
-`TileGridManagerTests`
-
-`BasicGeneratorTests`
+- `TileTests`
+- `ChunkTests`
+- `TileGridManagerTests`
+- `BasicGeneratorTests`
 
 Note:
 - We have tests for each of our main classes, testing them in isolation
 - Tests are good!
+
+---
+
+## Challenges
+
+- Constructing the data model
+- Dynamic vs. fixed worlds
+- Intersection between JUnit and JavaFX
+
+Note:
+- Constructing data model: decisions on abstract and stateless chunks vs. concrete chunks
+- Making decisions on how the data is stored and accessed: ultimately, with a fixed size world, it is loaded statically at start time
+- Trying to allow for unit testing for classes which include rendering / JavaFX components
+
+---
+
+## What's Next?
+
+Improving the interface between the tiles and the rest of the game
+
+On that note...
+
+Note:
+- Since tiles form the backbone of what the world *is*, many different aspects interact with them.
+- Our next goal, upon finalising the database storage: to allow for clearer and more robust manipulation of the tile system
+ - e.g. properties at mine time
 
 ---
 
@@ -152,9 +175,11 @@ Note:
   - Modifying generator?
  
 Note:
-Since tiles form the backbone of what the world *is*, many different aspects interact with them.
-
-Hence: our primary feedback concern is integration with other features. Feedback on interface points?:
+Our primary feedback concern is integration with other features. Feedback on interface points?:
 	- Tile type creation
 	- Interaction (mine-time properties)
 	- Generator extensibility
+	
+---
+
+## Questions?
