@@ -149,8 +149,10 @@ Note:
 
 Note:
 - Constructing data model: decisions on abstract and stateless chunks vs. concrete chunks
+ - Decided on abstract/stateless to improve performance and scalability (e.g. chunks don't know their position)
 - Making decisions on how the data is stored and accessed: ultimately, with a fixed size world, it is loaded statically at start time
 - Trying to allow for unit testing for classes which include rendering / JavaFX components
+ - Fixed by separating out texture loading from tile generation / construction
 
 ---
 
