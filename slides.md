@@ -3,14 +3,16 @@
 
 ---
 
+## The Tile Engine
 
-## Tile Engine
+![stone](media/fancy_stone.png)
+
+--
 
 - Core Engine
 - Generation & Rendering
 - Storage & Persistence
 - Collision & Interaction
-
 
 ---
 
