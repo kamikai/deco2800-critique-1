@@ -78,6 +78,22 @@ We saved the world!<br/>
 ### Rendering
 <small>(No image available)</small>
 
+```java
+
+// If x is not within viewport, don't render this column
+if ((chunkx+1) * CHUNK_GRID_SIZE * TILE_SIZE < xoffset
+		|| (chunkx-1) * CHUNK_GRID_SIZE * TILE_SIZE > xoffset + screenWidth) {
+	continue;
+}
+
+// If y is not within viewport, don't render this chunk
+if ((chunky+1) * CHUNK_GRID_SIZE * TILE_SIZE < yoffset
+		|| (chunky-1) * CHUNK_GRID_SIZE * TILE_SIZE > yoffset + screenHeight) {
+	continue;
+}
+
+```
+
 Note: TileGridManager selects tiles to render intelligently
 
 --
