@@ -5,57 +5,80 @@
 
 ## The Tile Engine
 
-![stone](media/stone.png)
+
+<img src="media/stone.png" class="pixely"></img>
+
+
+---
+
+## Package: `tiles`
+
+- `Tile`
+- `TileChunk`
+- `TileGridManager`
+
+---
+
+## Features
+
+- Tile engine
+- Generation
+- Persistence
+- Rendering
+- Interaction
+
+Note:
+**Main things implemented are:**
+- Core tile engine, The world is made of a grid of tiles
+- World generation,
+- Database Storage
+- Rendering
+- Interaction & collision
 
 --
 
-- Core Engine
-- Generation & Rendering
-- Storage & Persistence
-- Collision & Interaction
+### Tile Engine
 
----
+```java
+world.manager = new TileGridManager(generator);
+```
 
-## Core Engine
-
-- `Tile` | `TileChunk` | `TileGridManager`
--  Each tile uses one byte of storage space
-
----
-
-## Generation & Rendering
-
-- Fixed-size world generated on first launch
-- Generation techniques interchangeable through `TileGenerator` interface
-- Rendered (with texture assets!) selectively based on 'world offset' position
-
----
-
-## Storage & Persistence
-
-- Persisted in the database
-- BLOB!
-- ???
-
----
-
-## Collision & Interaction
-
-- Entities collide with solid tiles much as with other entities
-- Tile collision more efficient, as checking is restricted to area surrounding an entity
-- Other interactions (mining etc.): Tile are stateless
-
----
-
-## New Slide
-- Dot
-- Points
-- Here
+Note:
+- World has TileGridManager.
+- World made up of persistent 'Chunks'
+- Each tile uses one byte of storage space
 
 --
 
-## Sub-Slide
-![asd](media/joe.jpg)
+### Generation
 
-Note: This shows up in the speaker notes.
+![generation](media/generation.png)
 
+--
+
+## Persistence
+
+<br/>
+
+We saved the world!<br/>
+<small>(We can destroy it too)</small>
+
+--
+
+### Rendering
+<small>(No image available)</small>
+
+Note: TileGridManager selects tiles to render intelligently
+
+--
+
+### Interaction
+
+
+Note: Collisions and editing are possible
+
+---
+
+## Call for Feedback
+
+- Interaction behaviour:
