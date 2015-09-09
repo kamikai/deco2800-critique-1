@@ -135,6 +135,8 @@ Note:
 - `TileGridManagerTests`
 - `BasicGeneratorTests`
 
+<small>Line coverage: 75%</small>
+
 Note:
 - We have tests for each of our main classes, testing them in isolation
 - Tests are good!
