@@ -85,9 +85,12 @@ Note:
 We saved the world!<br/>
 <small>(we can destroy it too)</small>
 
+- DBUnit!
+
 Note:
 - All tiles are persisted in the database (still being finalised)
 - To be loaded in on game start (rather than regenerating each time)
+- DBUnit: used for testing chunk persistence
 
 --
 
