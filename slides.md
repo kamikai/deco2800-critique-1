@@ -74,7 +74,7 @@ Note: TileGridManager selects tiles to render intelligently
 
 ### Interaction
 
-![generation](media/collision.png)
+![interaction](media/interaction.png)
 
 Note: Collisions and editing are possible
 
