@@ -17,6 +17,9 @@
 - `TileChunk`
 - `TileGridManager`
 
+Note:
+Our work is in the `tiles` package, primary elements: Tile enum, TileChunk class, TileGridManager class
+
 ---
 
 ## Features
@@ -40,19 +43,38 @@ Note:
 ### Tile Engine
 
 ```java
-world.manager = new TileGridManager(generator);
+public enum Tile {
+    AIR     ((byte)0, "Air", null, false),
+
+    STONE   ((byte)1, "Stone", "texturepack/stone.png", true),
+    GRASS   ((byte)2, "Grass", "texturepack/grass.png", true),
+    DIRT    ((byte)3, "Dirt", "texturepack/dirt.png", true);
+
+    private final byte id;
+    private final String title;
+    private final String texture;
+    private final boolean solid;
+	
+	...
 ```
 
 Note:
 - World has TileGridManager.
 - World made up of persistent 'Chunks'
-- Each tile uses one byte of storage space
+- Each tile uses one byte of storage space; properties defined in enum
+- Stateless!
 
 --
 
 ### Generation
 
 ![generation](media/generation.png)
+
+Note:
+- Generation is extensible:
+ - Object implementing `TileGenerator` interface passed into TGM constructor
+ - Current `BasicGenerator` makes a flat floor, with rolling (sine wave) hills
+
 
 --
 
@@ -61,24 +83,103 @@ Note:
 <br/>
 
 We saved the world!<br/>
-<small>(We can destroy it too)</small>
+<small>(we can destroy it too)</small>
+
+Note:
+- All tiles are persisted in the database (still being finalised)
+- To be loaded in on game start (rather than regenerating each time)
 
 --
 
 ### Rendering
 <small>(No image available)</small>
 
-Note: TileGridManager selects tiles to render intelligently
+```java
+
+// If x is not within viewport, don't render this column
+if ((chunkx+1) * CHUNK_GRID_SIZE * TILE_SIZE < xoffset
+		|| (chunkx-1) * CHUNK_GRID_SIZE * TILE_SIZE > xoffset + screenWidth)
+	continue;
+
+// If y is not within viewport, don't render this chunk
+if ((chunky+1) * CHUNK_GRID_SIZE * TILE_SIZE < yoffset
+		|| (chunky-1) * CHUNK_GRID_SIZE * TILE_SIZE > yoffset + screenHeight)
+	continue;
+
+```
+
+Note: 
+- TileGridManager selects tiles to render intelligently (only within viewport)
+- Unlike entities (currently) rendering performance is hence not tied to number of tiles
+  - With current worldsize, there are ~40 chunks stored i.e. ~10000 tiles
 
 --
 
 ### Interaction
 
+![interaction](media/interaction.png)
 
-Note: Collisions and editing are possible
+Note:
+- Collisions work much like with entities
+ - Performance improvements by only checking tiles near entities
+- Functionality for manipulating tiles (e.g. mining)
+- Due to statelessness, more complex attributes must be added at 'mine-time'
+  - Possible future goal: add consistent framework for doing this
+
+---
+
+## Tests
+
+- `TileTests`
+- `ChunkTests`
+- `TileGridManagerTests`
+- `BasicGeneratorTests`
+
+Note:
+- We have tests for each of our main classes, testing them in isolation
+- Tests are good!
+
+---
+
+## Challenges
+
+- Constructing the data model
+- Dynamic vs. fixed worlds
+- Intersection between JUnit and JavaFX
+
+Note:
+- Constructing data model: decisions on abstract and stateless chunks vs. concrete chunks
+- Making decisions on how the data is stored and accessed: ultimately, with a fixed size world, it is loaded statically at start time
+- Trying to allow for unit testing for classes which include rendering / JavaFX components
+
+---
+
+## What's Next?
+
+Improving the interface between the tiles and the rest of the game
+
+On that note...
+
+Note:
+- Since tiles form the backbone of what the world *is*, many different aspects interact with them.
+- Our next goal, upon finalising the database storage: to allow for clearer and more robust manipulation of the tile system
+ - e.g. properties at mine time
 
 ---
 
 ## Call for Feedback
 
-- Interaction behaviour:
+- Ease of Interaction:
+  - Adding new tile types?
+  - Tile properties?
+  - Modifying generator?
+ 
+Note:
+Our primary feedback concern is integration with other features. Feedback on interface points?:
+	- Tile type creation
+	- Interaction (mine-time properties)
+	- Generator extensibility
+	
+---
+
+## Questions?
