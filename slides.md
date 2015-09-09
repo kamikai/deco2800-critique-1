@@ -40,7 +40,17 @@ Note:
 ### Tile Engine
 
 ```java
-world.manager = new TileGridManager(generator);
+public enum Tile {
+    AIR     ((byte)0, "Air", null, false),
+
+    STONE   ((byte)1, "Stone", "texturepack/stone.png", true),
+    GRASS   ((byte)2, "Grass", "texturepack/grass.png", true),
+    DIRT    ((byte)3, "Dirt", "texturepack/dirt.png", true);
+
+    private final byte id;
+    private final String title;
+    private final String texture;
+    private final boolean solid;
 ```
 
 Note:
@@ -77,6 +87,15 @@ Note: TileGridManager selects tiles to render intelligently
 ![interaction](media/interaction.png)
 
 Note: Collisions and editing are possible
+
+---
+
+## Tests
+
+`TileTests`
+`ChunkTests`
+`TileGridManagerTests`
+`BasicGeneratorTests`
 
 ---
 
