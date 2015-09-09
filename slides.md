@@ -5,7 +5,7 @@
 
 ## The Tile Engine
 
-![stone](media/fancy_stone.png)
+![stone](media/stone.png)
 
 --
 
