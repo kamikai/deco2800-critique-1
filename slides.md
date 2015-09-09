@@ -17,6 +17,9 @@
 - `TileChunk`
 - `TileGridManager`
 
+Note:
+Our work is in the `tiles` package, primary elements: Tile enum, TileChunk class, TileGridManager class
+
 ---
 
 ## Features
@@ -51,18 +54,27 @@ public enum Tile {
     private final String title;
     private final String texture;
     private final boolean solid;
+	
+	...
 ```
 
 Note:
 - World has TileGridManager.
 - World made up of persistent 'Chunks'
-- Each tile uses one byte of storage space
+- Each tile uses one byte of storage space; properties defined in enum
+- Stateless!
 
 --
 
 ### Generation
 
 ![generation](media/generation.png)
+
+Note:
+- Generation is extensible:
+ - Object implementing `TileGenerator` interface passed into TGM constructor
+ - Current `BasicGenerator` makes a flat floor, with rolling (sine wave) hills
+
 
 --
 
@@ -71,7 +83,11 @@ Note:
 <br/>
 
 We saved the world!<br/>
-<small>(We can destroy it too)</small>
+<small>(we can destroy it too)</small>
+
+Note:
+- All tiles are persisted in the database (still being finalised)
+- To be loaded in on game start (rather than regenerating each time)
 
 --
 
@@ -92,7 +108,10 @@ if ((chunky+1) * CHUNK_GRID_SIZE * TILE_SIZE < yoffset
 
 ```
 
-Note: TileGridManager selects tiles to render intelligently
+Note: 
+- TileGridManager selects tiles to render intelligently (only within viewport)
+- Unlike entities (currently) rendering performance is hence not tied to number of tiles
+  - With current worldsize, there are ~40 chunks stored i.e. ~10000 tiles
 
 --
 
@@ -100,16 +119,28 @@ Note: TileGridManager selects tiles to render intelligently
 
 ![interaction](media/interaction.png)
 
-Note: Collisions and editing are possible
+Note:
+- Collisions work much like with entities
+ - Performance improvements by only checking tiles near entities
+- Functionality for manipulating tiles (e.g. mining)
+- Due to statelessness, more complex attributes must be added at 'mine-time'
+  - Possible future goal: add consistent framework for doing this
 
 ---
 
 ## Tests
 
 `TileTests`
+
 `ChunkTests`
+
 `TileGridManagerTests`
+
 `BasicGeneratorTests`
+
+Note:
+- We have tests for each of our main classes, testing them in isolation
+- Tests are good!
 
 ---
 
@@ -117,5 +148,13 @@ Note: Collisions and editing are possible
 
 - Ease of Interaction:
   - Adding new tile types?
-  - Tile properties (e.g. mining)?
+  - Tile properties?
   - Modifying generator?
+ 
+Note:
+Since tiles form the backbone of what the world *is*, many different aspects interact with them.
+
+Hence: our primary feedback concern is integration with other features. Feedback on interface points?:
+	- Tile type creation
+	- Interaction (mine-time properties)
+	- Generator extensibility
