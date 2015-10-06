@@ -1,15 +1,16 @@
 # Team Hopper
 ### Cranny, Fraser, Shen, Spearritt
 ## Critique 2
+
 ---
 
 ## Last time, on *Team Hopper*...
 
 - Tile Engine
--- Tile Generation
--- Tile Persistence
--- Tile Rendering
--- Tile Interaction
+- Tile Generation
+- Tile Persistence
+- Tile Rendering
+- Tile Interaction
 
 ---
 
@@ -67,9 +68,8 @@ if (perlin >= RUBY_THRESHOLD) {
 
 ## Challenges
 
-- WorldGen: noise generation
--- Noise that 'looks right'
--- Testing fundementally random processes
+- Generating mineral veins - noise that 'looks right'
+- Testing fundementally random processes
 - Mouse panning: World had no concept of 'y offset', and rendering was written assuming the y position was fixed
 - ???
 
