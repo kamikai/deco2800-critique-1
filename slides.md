@@ -1,191 +1,89 @@
 # Team Hopper
 ### Cranny, Fraser, Shen, Spearritt
+## Critique 2
+---
+
+## Last time, on *Team Hopper*...
+
+- Tile Engine
+-- Tile Generation
+-- Tile Persistence
+-- Tile Rendering
+-- Tile Interaction
 
 ---
 
-## The Tile Engine
+## Since then...
 
-
-<img src="media/stone.png" class="pixely"></img>
-
-
----
-
-## Package: `tiles`
-
-- `Tile`
-- `TileChunk`
-- `TileGridManager`
-
-Note:
-Our work is in the `tiles` package, primary elements: Tile enum, TileChunk class, TileGridManager class
-
----
-
-## Features
-
-- Tile engine
-- Generation
-- Persistence
-- Rendering
-- Interaction
-
-Note:
-**Main things implemented are:**
-- Core tile engine, The world is made of a grid of tiles
-- World generation,
-- Database Storage
-- Rendering
-- Interaction & collision
+- Tile Engine improvements
+- Modifiers / World Gen Pipeline
+- Test improvements
+- Misc. additions
 
 --
 
 ### Tile Engine
 
-```java
-public enum Tile {
-    AIR     ((byte)0, "Air", null, false),
-
-    STONE   ((byte)1, "Stone", "texturepack/stone.png", true),
-    GRASS   ((byte)2, "Grass", "texturepack/grass.png", true),
-    DIRT    ((byte)3, "Dirt", "texturepack/dirt.png", true);
-
-    private final byte id;
-    private final String title;
-    private final String texture;
-    private final boolean solid;
-	
-	...
-```
-
-Note:
-- World has TileGridManager.
-- World made up of persistent 'Chunks'
-- Each tile uses one byte of storage space; properties defined in enum
-- Stateless!
+- More database stuff?
 
 --
 
-### Generation
+### World Generation Pipeline (#88)
 
-![generation](media/generation.png)
-
-Note:
-- Generation is extensible:
- - Object implementing `TileGenerator` interface passed into TGM constructor
- - Current `BasicGenerator` makes a flat floor, with rolling (sine wave) hills
-
+- `TileModifier` interface, and `TileGridManager` infrastructure
+- Modifiers created so far - `SquareVeinTileModifier` and `PerlinVeinTileModifier`
+- Associated `NoiseCreator` class for creating Perlin noise / fractal noise (with Fractal Brownian Motion)
 
 --
-
-## Persistence
-
-<br/>
-
-We saved the world!<br/>
-<small>(we can destroy it too)</small>
-
-- DBUnit!
-
-Note:
-- All tiles are persisted in the database (still being finalised)
-- To be loaded in on game start (rather than regenerating each time)
-- DBUnit: used for testing chunk persistence
-
---
-
-### Rendering
-<small>(No image available)</small>
-
-```java
-
-// If x is not within viewport, don't render this column
-if ((chunkx+1) * CHUNK_GRID_SIZE * TILE_SIZE < xoffset
-		|| (chunkx-1)*CHUNK_GRID_SIZE*TILE_SIZE > xoffset+screenWidth)
-	continue;
-
-// If y is not within viewport, don't render this chunk
-if ((chunky+1) * CHUNK_GRID_SIZE * TILE_SIZE < yoffset
-		|| (chunky-1)*CHUNK_GRID_SIZE*TILE_SIZE > yoffset+screenHeight)
-	continue;
 
 ```
-
-Note: 
-- TileGridManager selects tiles to render intelligently (only within viewport)
-- Unlike entities (currently) rendering performance is hence not tied to number of tiles
-  - With current worldsize, there are ~40 chunks stored i.e. ~10000 tiles
+double pX, pY;
+pX = (((double)globalX / 2000.0) * noiseGridSize) - noiseGridSize/2;
+pY = (((double)globalY / 2000.0) * noiseGridSize) - noiseGridSize/2;
+double perlin = noiseCreator.getPerlin(pX, pY);
+if (perlin >= RUBY_THRESHOLD) {
+	chunk.setTileType(x, y, Tile.RUBY);
+} else if (perlin <= DIAMOND_THRESHOLD) {
+	chunk.setTileType(x, y, Tile.GOLD);
+}
+```
 
 --
 
-### Interaction
+### Testing improvements
 
-![interaction](media/interaction.png)
+- Assorted tile testing improvements
+- Tile rendering now tested thanks to PowerMock
 
-Note:
-- Collisions work much like with entities
- - Performance improvements by only checking tiles near entities
-- Functionality for manipulating tiles (e.g. mining)
-- Due to statelessness, more complex attributes must be added at 'mine-time'
-  - Possible future goal: add consistent framework for doing this
+--
 
----
+### Other Additions / Involvement
 
-## Tests
-
-- `TileTests`
-- `ChunkTests`
-- `TileGridManagerTests`
-- `BasicGeneratorTests`
-
-<small>Line coverage: 75%</small>
-
-Note:
-- We have tests for each of our main classes, testing them in isolation
-- Tests are good!
+- Made vertical mouse panning work
+- Added parallax effect to the sun
+- Work towards making the game resizeable
 
 ---
 
 ## Challenges
 
-- Constructing the data model
-- Dynamic vs. fixed worlds
-- Intersection between JUnit and JavaFX
-
-Note:
-- Constructing data model: decisions on abstract and stateless chunks vs. concrete chunks
- - Decided on abstract/stateless to improve performance and scalability (e.g. chunks don't know their position)
-- Making decisions on how the data is stored and accessed: ultimately, with a fixed size world, it is loaded statically at start time
-- Trying to allow for unit testing for classes which include rendering / JavaFX components
- - Fixed by separating out texture loading from tile generation / construction
+- WorldGen: noise generation
+-- Noise that 'looks right'
+-- Testing fundementally random processes
+- Mouse panning: World had no concept of 'y offset', and rendering was written assuming the y position was fixed
+- ???
 
 ---
 
 ## What's Next?
 
-Improving the interface between the tiles and the rest of the game
-
-On that note...
-
-Note:
-- Since tiles form the backbone of what the world *is*, many different aspects interact with them.
-- Our next goal, upon finalising the database storage: to allow for clearer and more robust manipulation of the tile system
- - e.g. properties at mine time
+???
 
 ---
 
 ## Call for Feedback
 
-- Ease of Interaction:
-  - Adding new tile types?
-  - Tile properties?
-  - Modifying generator?
- 
-Note:
-Our primary feedback concern is integration with other features. Feedback on interface points?:
-	- Tile type creation
-	- Interaction (mine-time properties)
-	- Generator extensibility
+- ???
 	
 ---
 
