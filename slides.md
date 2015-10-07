@@ -16,75 +16,81 @@
 
 ## Since then...
 
-- Tile Engine improvements
-- Modifiers / World Gen Pipeline
-- Test improvements
-- Misc. additions
-
---
-
-### Tile Engine
-
-- More database stuff?
+- World Generation Pipeline (+Modifiers).
+- Tile Engine improvements.
+- More and better tests.
+- Miscellaneous improvements.
 
 --
 
 ### World Generation Pipeline (#88)
 
-- `TileModifier` interface, and `TileGridManager` infrastructure
-- Modifiers created so far - `SquareVeinTileModifier` and `PerlinVeinTileModifier`
-- Associated `NoiseCreator` class for creating Perlin noise / fractal noise (with Fractal Brownian Motion)
+- Interface: `TileModifier`
+- Implementations:
+  - `SquareVeinTileModifier`
+  - `PerlinVeinTileModifier`
+- Also: `NoiseCreator`, for Perlin noise / fractal noise
+
+Note:
+- `NoiseCreator` uses Fractal Brownian Motion.
 
 --
 
-```
-double pX, pY;
-pX = (((double)globalX / 2000.0) * noiseGridSize) - noiseGridSize/2;
-pY = (((double)globalY / 2000.0) * noiseGridSize) - noiseGridSize/2;
-double perlin = noiseCreator.getPerlin(pX, pY);
-if (perlin >= RUBY_THRESHOLD) {
-	chunk.setTileType(x, y, Tile.RUBY);
-} else if (perlin <= DIAMOND_THRESHOLD) {
-	chunk.setTileType(x, y, Tile.GOLD);
-}
-```
+### Tile Engine
+
+- Pipeline infrastructure
+- FlyWay integration
+- Refactoring
 
 --
 
 ### Testing improvements
 
-- Assorted tile testing improvements
-- Tile rendering now tested thanks to PowerMock
+- Chunk rendering tested with PowerMock.
+- Assorted tile testing improvements.
 
 --
 
-### Other Additions / Involvement
+### Updated Textures
 
-- Made vertical mouse panning work
-- Added parallax effect to the sun
-- Work towards making the game resizeable
+<img src="media/new_textures.png" class="pixely"></img>
+
+--
+
+### Miscellaneous Improvements
+
+- Documentation.
+- Vertical mouse panning.
+- Parallax effect for the sun.
+- Window resizing work.
 
 ---
 
 ## Challenges
 
-- Generating mineral veins - noise that 'looks right'
-- Testing fundementally random processes
-- Mouse panning: World had no concept of 'y offset', and rendering was written assuming the y position was fixed
-- ???
+- Generating mineral veins - noise that 'looks right'.
+- Testing randomness.
+- Mouse panning: Rendering assumed fixed `Y` position.
+
+Note:
+- World had no concept of 'y offset'
 
 ---
 
 ## What's Next?
 
-???
+- World Gen improvements
+    - More modifiers
+- Lighting?
+
 
 ---
 
 ## Call for Feedback
 
-- ???
-	
+- Texture Design - *Theming / Tessellation*
+- Usability of Modifiers - *Usability*
+
 ---
 
 ## Questions?
